@@ -55,7 +55,8 @@ function Remove-CommonLeadingWhiteSpace([string]$s) {
     [regex]::Replace($s, "(?m:^ {$(([regex]::Matches($s, '(?m:^ +)') | Select-Object -ExpandProperty Length | Measure-Object -Minimum).Minimum)})", '') -split '`r?`n'
 }
 
-function Get-PieUrl([string]$relative) {
+function Get-PieUrl([string]$relative)
+{
     $url = "https://raw.githubusercontent.com/atifaziz/pie.ps/master"
     if ($env:PIE_DEV_URL) {
         $url = $env:PIE_DEV_URL.TrimEnd('/')
@@ -92,7 +93,8 @@ function Uninstall
 
 function Install
 {
-    if (Test-Path -PathType Leaf pyver.txt) {
+    if (Test-Path -PathType Leaf pyver.txt)
+    {
         $requiredVersion, $versoinDownloadUrl = (Get-Content pyver.txt -TotalCount 1) -split '@'
         Write-Verbose "Required Python version is $requiredVersion."
         if ($versoinDownloadUrl -and ($versoinDownloadUrl -notmatch '^https?://')) {
@@ -188,10 +190,10 @@ function Install
             throw "Installation of pip failed (exit code = $LASTEXITCODE)."
         }
 
-    } else {
-
+    }
+    else
+    {
         Write-Verbose $pipVersion
-
     }
 
     if (Test-Path -PathType Leaf $requirementsFile)
@@ -218,11 +220,13 @@ function Finish-Update
     Write-Output 'Pie updated successfully.'
 }
 
-function List-Versions {
+function List-Versions
+{
     Get-PythonVersions | Select-Object -ExpandProperty Version -Unique
 }
 
-function Finish-SelfInstall {
+function Finish-SelfInstall
+{
     Write-Output 'Pie installed successfully.'
 }
 
