@@ -117,11 +117,11 @@ function Install
 
     if ($installedVersion -and $requiredVersion -and ($installedVersion -ne $requiredVersion))
     {
-        Write-Verbose "Installed version $installedVersion does not match required version $requiredVersion. Installed version will be removed."
+        Write-Warning "Installed version $installedVersion does not match required version $requiredVersion. Installed version will be removed."
         $uninstall = $true
     }
 
-    if (!(Test-Path -PathType Container $basePath))
+    if (!(Test-Path -PathType Container $basePath) -or $uninstall)
     {
         $zipPath = Join-Path $env:TEMP python.zip
         if ($versoinDownloadUrl)
