@@ -1,6 +1,6 @@
 # Pie
 
-Pie (Python Installer Extraordinare) is a PowerShell script for Windows for installing a local and isolated version of [Python], [pip] and packages
+Pie (Python installer extraordinare) is a PowerShell script for Windows for installing a local and isolated version of [Python], [pip] and packages
 required by a _project_.
 
 A project is simply any collection of Python scripts in a directory that share
