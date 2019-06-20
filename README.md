@@ -55,11 +55,11 @@ newly specified version instead.
 
 Run:
 
-    ./pie.py
+    ./pie.ps1 -Uninstall
 
 This will remove all artifacts installed into the project (i.e. Python, pip
 packages and supporting scripts) except Pie. To remove Pie from the project,
-simply delete `pie.py`.
+simply delete `pie.ps1`.
 
 
 [Python]: https://www.python.org/
