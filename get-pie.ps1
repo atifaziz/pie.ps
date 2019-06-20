@@ -5,7 +5,7 @@ try
 {
     if (Test-Path -PathType Leaf pie.ps1)
     {
-        Write-Output 'Pie is already installed. Run "pie update" to get the latest version.'
+        Write-Output 'Pie is already installed. Run "./pie.ps1 -Update" to get the latest version.'
     }
     else
     {
