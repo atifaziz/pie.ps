@@ -47,144 +47,23 @@ function Remove-CommonLeadingWhiteSpace([string]$s) {
     [regex]::Replace($s, "(?m:^ {$(([regex]::Matches($s, '(?m:^ +)') | Select-Object -ExpandProperty Length | Measure-Object -Minimum).Minimum)})", '') -split '`r?`n'
 }
 
-$versions =
-@(
-    @{ Version = '3.7.3'   ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.7.3/python-3.7.3-embed-amd64.zip'       },
-    @{ Version = '3.7.3'   ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.7.3/python-3.7.3-embed-win32.zip'       },
-    @{ Version = '3.7.2'   ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.7.2/python-3.7.2.post1-embed-amd64.zip' },
-    @{ Version = '3.7.2'   ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.7.2/python-3.7.2.post1-embed-win32.zip' },
-    @{ Version = '3.6.8'   ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.8/python-3.6.8-embed-amd64.zip'       },
-    @{ Version = '3.6.8'   ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.8/python-3.6.8-embed-win32.zip'       },
-    @{ Version = '3.7.1'   ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.7.1/python-3.7.1-embed-amd64.zip'       },
-    @{ Version = '3.7.1'   ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.7.1/python-3.7.1-embed-win32.zip'       },
-    @{ Version = '3.6.7'   ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.7/python-3.6.7-embed-amd64.zip'       },
-    @{ Version = '3.6.7'   ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.7/python-3.6.7-embed-win32.zip'       },
-    @{ Version = '3.7.0'   ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.7.0/python-3.7.0-embed-amd64.zip'       },
-    @{ Version = '3.7.0'   ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.7.0/python-3.7.0-embed-win32.zip'       },
-    @{ Version = '3.6.6'   ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.6/python-3.6.6-embed-amd64.zip'       },
-    @{ Version = '3.6.6'   ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.6/python-3.6.6-embed-win32.zip'       },
-    @{ Version = '3.6.5'   ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.5/python-3.6.5-embed-amd64.zip'       },
-    @{ Version = '3.6.5'   ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.5/python-3.6.5-embed-win32.zip'       },
-    @{ Version = '3.6.4'   ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.4/python-3.6.4-embed-amd64.zip'       },
-    @{ Version = '3.6.4'   ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.4/python-3.6.4-embed-win32.zip'       },
-    @{ Version = '3.6.3'   ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.3/python-3.6.3-embed-amd64.zip'       },
-    @{ Version = '3.6.3'   ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.3/python-3.6.3-embed-win32.zip'       },
-    @{ Version = '3.5.4'   ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.5.4/python-3.5.4-embed-amd64.zip'       },
-    @{ Version = '3.5.4'   ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.5.4/python-3.5.4-embed-win32.zip'       },
-    @{ Version = '3.6.2'   ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.2/python-3.6.2-embed-amd64.zip'       },
-    @{ Version = '3.6.2'   ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.2/python-3.6.2-embed-win32.zip'       },
-    @{ Version = '3.6.1'   ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.1/python-3.6.1-embed-amd64.zip'       },
-    @{ Version = '3.6.1'   ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.1/python-3.6.1-embed-win32.zip'       },
-    @{ Version = '3.5.3'   ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.5.3/python-3.5.3-embed-amd64.zip'       },
-    @{ Version = '3.5.3'   ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.5.3/python-3.5.3-embed-win32.zip'       },
-    @{ Version = '3.6.0'   ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.0/python-3.6.0-embed-amd64.zip'       },
-    @{ Version = '3.6.0'   ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.0/python-3.6.0-embed-win32.zip'       },
-    @{ Version = '3.5.2'   ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.5.2/python-3.5.2-embed-amd64.zip'       },
-    @{ Version = '3.5.2'   ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.5.2/python-3.5.2-embed-win32.zip'       },
-    @{ Version = '3.5.1'   ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.5.1/python-3.5.1-embed-amd64.zip'       },
-    @{ Version = '3.5.1'   ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.5.1/python-3.5.1-embed-win32.zip'       },
-    @{ Version = '3.5.0'   ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.5.0/python-3.5.0-embed-amd64.zip'       },
-    @{ Version = '3.5.0'   ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.5.0/python-3.5.0-embed-win32.zip'       },
-    @{ Version = '3.7.4rc1'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.7.4/python-3.7.4rc1-embed-amd64.zip'    },
-    @{ Version = '3.7.4rc1'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.7.4/python-3.7.4rc1-embed-win32.zip'    },
-    @{ Version = '3.8.0b1' ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.8.0/python-3.8.0b1-embed-amd64.zip'     },
-    @{ Version = '3.8.0b1' ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.8.0/python-3.8.0b1-embed-win32.zip'     },
-    @{ Version = '3.8.0a4' ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.8.0/python-3.8.0a4-embed-amd64.zip'     },
-    @{ Version = '3.8.0a4' ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.8.0/python-3.8.0a4-embed-win32.zip'     },
-    @{ Version = '3.8.0a3' ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.8.0/python-3.8.0a3-embed-amd64.zip'     },
-    @{ Version = '3.8.0a3' ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.8.0/python-3.8.0a3-embed-win32.zip'     },
-    @{ Version = '3.7.3rc1'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.7.3/python-3.7.3rc1-embed-amd64.zip'    },
-    @{ Version = '3.7.3rc1'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.7.3/python-3.7.3rc1-embed-win32.zip'    },
-    @{ Version = '3.8.0a2' ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.8.0/python-3.8.0a2-embed-amd64.zip'     },
-    @{ Version = '3.8.0a2' ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.8.0/python-3.8.0a2-embed-win32.zip'     },
-    @{ Version = '3.8.0a1' ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.8.0/python-3.8.0a1-embed-amd64.zip'     },
-    @{ Version = '3.8.0a1' ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.8.0/python-3.8.0a1-embed-win32.zip'     },
-    @{ Version = '3.7.2rc1'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.7.2/python-3.7.2rc1-embed-amd64.zip'    },
-    @{ Version = '3.7.2rc1'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.7.2/python-3.7.2rc1-embed-win32.zip'    },
-    @{ Version = '3.6.8rc1'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.8/python-3.6.8rc1-embed-amd64.zip'    },
-    @{ Version = '3.6.8rc1'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.8/python-3.6.8rc1-embed-win32.zip'    },
-    @{ Version = '3.7.1rc2'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.7.1/python-3.7.1rc2-embed-amd64.zip'    },
-    @{ Version = '3.7.1rc2'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.7.1/python-3.7.1rc2-embed-win32.zip'    },
-    @{ Version = '3.6.7rc2'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.7/python-3.6.7rc2-embed-amd64.zip'    },
-    @{ Version = '3.6.7rc2'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.7/python-3.6.7rc2-embed-win32.zip'    },
-    @{ Version = '3.7.1rc1'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.7.1/python-3.7.1rc1-embed-amd64.zip'    },
-    @{ Version = '3.7.1rc1'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.7.1/python-3.7.1rc1-embed-win32.zip'    },
-    @{ Version = '3.6.7rc1'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.7/python-3.6.7rc1-embed-amd64.zip'    },
-    @{ Version = '3.6.7rc1'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.7/python-3.6.7rc1-embed-win32.zip'    },
-    @{ Version = '3.6.6rc1'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.6/python-3.6.6rc1-embed-amd64.zip'    },
-    @{ Version = '3.6.6rc1'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.6/python-3.6.6rc1-embed-win32.zip'    },
-    @{ Version = '3.7.0rc1'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.7.0/python-3.7.0rc1-embed-amd64.zip'    },
-    @{ Version = '3.7.0rc1'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.7.0/python-3.7.0rc1-embed-win32.zip'    },
-    @{ Version = '3.7.0b5' ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.7.0/python-3.7.0b5-embed-amd64.zip'     },
-    @{ Version = '3.7.0b5' ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.7.0/python-3.7.0b5-embed-win32.zip'     },
-    @{ Version = '3.6.5rc1'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.5/python-3.6.5rc1-embed-amd64.zip'    },
-    @{ Version = '3.6.5rc1'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.5/python-3.6.5rc1-embed-win32.zip'    },
-    @{ Version = '3.7.0b2' ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.7.0/python-3.7.0b2-embed-amd64.zip'     },
-    @{ Version = '3.7.0b2' ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.7.0/python-3.7.0b2-embed-win32.zip'     },
-    @{ Version = '3.7.0b1' ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.7.0/python-3.7.0b1-embed-amd64.zip'     },
-    @{ Version = '3.7.0b1' ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.7.0/python-3.7.0b1-embed-win32.zip'     },
-    @{ Version = '3.7.0a4' ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.7.0/python-3.7.0a4-embed-amd64.zip'     },
-    @{ Version = '3.7.0a4' ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.7.0/python-3.7.0a4-embed-win32.zip'     },
-    @{ Version = '3.6.4rc1'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.4/python-3.6.4rc1-embed-amd64.zip'    },
-    @{ Version = '3.6.4rc1'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.4/python-3.6.4rc1-embed-win32.zip'    },
-    @{ Version = '3.7.0a3' ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.7.0/python-3.7.0a3-embed-amd64.zip'     },
-    @{ Version = '3.7.0a3' ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.7.0/python-3.7.0a3-embed-win32.zip'     },
-    @{ Version = '3.7.0a2' ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.7.0/python-3.7.0a2-embed-amd64.zip'     },
-    @{ Version = '3.7.0a2' ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.7.0/python-3.7.0a2-embed-win32.zip'     },
-    @{ Version = '3.7.0a1' ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.7.0/python-3.7.0a1-embed-amd64.zip'     },
-    @{ Version = '3.7.0a1' ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.7.0/python-3.7.0a1-embed-win32.zip'     },
-    @{ Version = '3.6.3rc1'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.3/python-3.6.3rc1-embed-amd64.zip'    },
-    @{ Version = '3.6.3rc1'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.3/python-3.6.3rc1-embed-win32.zip'    },
-    @{ Version = '3.5.4rc1'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.5.4/python-3.5.4rc1-embed-amd64.zip'    },
-    @{ Version = '3.5.4rc1'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.5.4/python-3.5.4rc1-embed-win32.zip'    },
-    @{ Version = '3.6.2rc2'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.2/python-3.6.2rc2-embed-amd64.zip'    },
-    @{ Version = '3.6.2rc2'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.2/python-3.6.2rc2-embed-win32.zip'    },
-    @{ Version = '3.6.2rc1'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.2/python-3.6.2rc1-embed-amd64.zip'    },
-    @{ Version = '3.6.2rc1'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.2/python-3.6.2rc1-embed-win32.zip'    },
-    @{ Version = '3.6.1rc1'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.1/python-3.6.1rc1-embed-amd64.zip'    },
-    @{ Version = '3.6.1rc1'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.1/python-3.6.1rc1-embed-win32.zip'    },
-    @{ Version = '3.5.3rc1'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.5.3/python-3.5.3rc1-embed-amd64.zip'    },
-    @{ Version = '3.5.3rc1'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.5.3/python-3.5.3rc1-embed-win32.zip'    },
-    @{ Version = '3.6.0rc2'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.0/python-3.6.0rc2-embed-amd64.zip'    },
-    @{ Version = '3.6.0rc2'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.0/python-3.6.0rc2-embed-win32.zip'    },
-    @{ Version = '3.6.0rc1'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.0/python-3.6.0rc1-embed-amd64.zip'    },
-    @{ Version = '3.6.0rc1'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.0/python-3.6.0rc1-embed-win32.zip'    },
-    @{ Version = '3.6.0b4' ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.0/python-3.6.0b4-embed-amd64.zip'     },
-    @{ Version = '3.6.0b4' ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.0/python-3.6.0b4-embed-win32.zip'     },
-    @{ Version = '3.6.0b3' ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.0/python-3.6.0b3-embed-amd64.zip'     },
-    @{ Version = '3.6.0b3' ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.0/python-3.6.0b3-embed-win32.zip'     },
-    @{ Version = '3.6.0b2' ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.0/python-3.6.0b2-embed-amd64.zip'     },
-    @{ Version = '3.6.0b2' ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.0/python-3.6.0b2-embed-win32.zip'     },
-    @{ Version = '3.6.0b1' ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.0/python-3.6.0b1-embed-amd64.zip'     },
-    @{ Version = '3.6.0b1' ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.0/python-3.6.0b1-embed-win32.zip'     },
-    @{ Version = '3.6.0a4' ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.0/python-3.6.0a4-embed-amd64.zip'     },
-    @{ Version = '3.6.0a4' ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.0/python-3.6.0a4-embed-win32.zip'     },
-    @{ Version = '3.6.0a3' ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.0/python-3.6.0a3-embed-amd64.zip'     },
-    @{ Version = '3.6.0a3' ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.0/python-3.6.0a3-embed-win32.zip'     },
-    @{ Version = '3.6.0a2' ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.0/python-3.6.0a2-embed-amd64.zip'     },
-    @{ Version = '3.6.0a2' ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.0/python-3.6.0a2-embed-win32.zip'     },
-    @{ Version = '3.5.2rc1'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.5.2/python-3.5.2rc1-embed-amd64.zip'    },
-    @{ Version = '3.5.2rc1'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.5.2/python-3.5.2rc1-embed-win32.zip'    },
-    @{ Version = '3.6.0a1' ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.6.0/python-3.6.0a1-embed-amd64.zip'     },
-    @{ Version = '3.6.0a1' ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.6.0/python-3.6.0a1-embed-win32.zip'     },
-    @{ Version = '3.5.1rc1'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.5.1/python-3.5.1rc1-embed-amd64.zip'    },
-    @{ Version = '3.5.1rc1'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.5.1/python-3.5.1rc1-embed-win32.zip'    },
-    @{ Version = '3.5.0rc4'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.5.0/python-3.5.0rc4-embed-amd64.zip'    },
-    @{ Version = '3.5.0rc4'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.5.0/python-3.5.0rc4-embed-win32.zip'    },
-    @{ Version = '3.5.0rc3'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.5.0/python-3.5.0rc3-embed-amd64.zip'    },
-    @{ Version = '3.5.0rc3'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.5.0/python-3.5.0rc3-embed-win32.zip'    },
-    @{ Version = '3.5.0rc2'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.5.0/python-3.5.0rc2-embed-amd64.zip'    },
-    @{ Version = '3.5.0rc2'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.5.0/python-3.5.0rc2-embed-win32.zip'    },
-    @{ Version = '3.5.0rc1'; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.5.0/python-3.5.0rc1-embed-amd64.zip'    },
-    @{ Version = '3.5.0rc1'; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.5.0/python-3.5.0rc1-embed-win32.zip'    },
-    @{ Version = '3.5.0b4' ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.5.0/python-3.5.0b4-embed-amd64.zip'     },
-    @{ Version = '3.5.0b4' ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.5.0/python-3.5.0b4-embed-win32.zip'     },
-    @{ Version = '3.5.0b3' ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.5.0/python-3.5.0b3-embed-amd64.zip'     },
-    @{ Version = '3.5.0b3' ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.5.0/python-3.5.0b3-embed-win32.zip'     },
-    @{ Version = '3.5.0b2' ; Arch = 'amd64'; Url = 'https://www.python.org/ftp/python/3.5.0/python-3.5.0b2-embed-amd64.zip'     },
-    @{ Version = '3.5.0b2' ; Arch = 'win32'; Url = 'https://www.python.org/ftp/python/3.5.0/python-3.5.0b2-embed-win32.zip'     }
-) |
-% { [pscustomobject]$_ }
+$cachedVersions = $null
+
+function Get-PythonVersions
+{
+    if (!$script:cachedVersions)
+    {
+        $script:cachedVersions =
+            Invoke-RestMethod https://raw.githubusercontent.com/atifaziz/pi.ps1/master/pyver.csv |
+                ConvertFrom-Csv |
+                Select-Object @{ L = 'Version'      ; E = { $_.version        } },
+                              @{ L = 'PrefixVersion'; E = { $_.version_prefix } },
+                              @{ L = 'SuffixVersion'; E = { $_.version_suffix } },
+                              @{ L = 'Architecture' ; E = { $_.architecture   } },
+                              @{ L = 'Url'          ; E = { $_.url            } }
+    }
+    $script:cachedVersions
+}
 
 function Uninstall
 {
@@ -230,8 +109,8 @@ function Install
         {
             $archs = @{ AMD64 = 'amd64'; x86 = 'win32' }
             $arch = $archs[$env:PROCESSOR_ARCHITECTURE]
-            $pythonDownloadUrl = $versions |
-                ? { ($_.Version -eq $requiredVersion) -and ($_.Arch -eq $arch) } |
+            $pythonDownloadUrl = Get-PythonVersions |
+                ? { ($_.Version -eq $requiredVersion) -and ($_.Architecture -eq $arch) } |
                 Select-Object -ExpandProperty Url
             if (!$pythonDownloadUrl) {
                 throw "Download URL for Python $requiredVersion ($arch) is unknown."
@@ -309,7 +188,7 @@ function Install
 }
 
 function List-Versions {
-    $versions | Select-Object -ExpandProperty Version -Unique
+    Get-PythonVersions | Select-Object -ExpandProperty Version -Unique
 }
 
 function Finish-SelfInstall {
