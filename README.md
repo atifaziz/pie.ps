@@ -14,7 +14,7 @@ directory that defines a project with sub-directories.
 
 To install Pie, copy, paste and run the following line at a PowerShell prompt:
 
-    iex (Invoke-RestMethod https://github.com/atifaziz/pie.ps/blob/master/get-pie.ps1)
+    iex (Invoke-RestMethod https://raw.githubusercontent.com/atifaziz/pie.ps/master/get-pie.ps1)
 
 This will add `pie.ps1` to your project. You should check-in this file if you
 are using a version control system (e.g. Git, Mercurial, Subversion or
