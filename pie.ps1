@@ -35,16 +35,32 @@ param(
     [Parameter(ParameterSetName = 'Uninstall', Mandatory = $true)]
     [switch]$Uninstall,
 
+    [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
+    [switch]$Update,
+
     [Parameter(ParameterSetName = 'List-Versions', Mandatory = $true)]
     [switch]$ListVersions,
 
     [Parameter(ParameterSetName = 'Finish-SelfInstall', Mandatory = $true)]
-    [switch]$FinishSelfInstall)
+    [switch]$FinishSelfInstall,
+
+    [Parameter(ParameterSetName = 'Finish-Update', Mandatory = $true)]
+    [switch]$FinishUpdate,
+    [Parameter(ParameterSetName = 'Finish-Update', Mandatory = $true)]
+    [string]$CallerPath)
 
 $ErrorActionPreference = 'Stop'
 
 function Remove-CommonLeadingWhiteSpace([string]$s) {
     [regex]::Replace($s, "(?m:^ {$(([regex]::Matches($s, '(?m:^ +)') | Select-Object -ExpandProperty Length | Measure-Object -Minimum).Minimum)})", '') -split '`r?`n'
+}
+
+function Get-PieUrl([string]$relative) {
+    $url = "https://raw.githubusercontent.com/atifaziz/pie.ps/master"
+    if ($env:PIE_DEV_URL) {
+        $url = $env:PIE_DEV_URL.TrimEnd('/')
+    }
+    "$url/" + $relative.TrimStart('/')
 }
 
 $cachedVersions = $null
@@ -54,7 +70,7 @@ function Get-PythonVersions
     if (!$script:cachedVersions)
     {
         $script:cachedVersions =
-            Invoke-RestMethod https://raw.githubusercontent.com/atifaziz/pie.ps/master/pyver.csv |
+            Invoke-RestMethod (Get-PieUrl pyver.csv) |
                 ConvertFrom-Csv |
                 Select-Object @{ L = 'Version'      ; E = { $_.version        } },
                               @{ L = 'PrefixVersion'; E = { $_.version_prefix } },
@@ -185,6 +201,21 @@ function Install
             throw "Installation of requirements failed (exit code = $LASTEXITCODE)."
         }
     }
+}
+
+function Get-UpdatePath { Join-Path $env:TEMP pie.ps1 }
+
+function Update
+{
+    $temp = Get-UpdatePath
+    Invoke-WebRequest (Get-PieUrl pie.ps1) -OutFile $temp
+    & $temp -FinishUpdate -CallerPath $PSCommandPath
+}
+
+function Finish-Update
+{
+    Move-Item (Get-UpdatePath) $callerPath -Force
+    Write-Output 'Pie updated successfully.'
 }
 
 function List-Versions {
