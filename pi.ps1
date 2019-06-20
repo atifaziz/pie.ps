@@ -36,7 +36,10 @@ param(
     [switch]$Uninstall,
 
     [Parameter(ParameterSetName = 'List-Versions', Mandatory = $true)]
-    [switch]$ListVersions)
+    [switch]$ListVersions,
+
+    [Parameter(ParameterSetName = 'Finish-SelfInstall', Mandatory = $true)]
+    [switch]$FinishSelfInstall)
 
 $ErrorActionPreference = 'Stop'
 
@@ -308,5 +311,7 @@ function Install
 function List-Versions {
     $versions | Select-Object -ExpandProperty Version -Unique
 }
+
+function Finish-SelfInstall {}
 
 & $PSCmdlet.ParameterSetName
