@@ -57,13 +57,20 @@ function Remove-CommonLeadingWhiteSpace([string]$s) {
     [regex]::Replace($s, "(?m:^ {$(([regex]::Matches($s, '(?m:^ +)') | Select-Object -ExpandProperty Length | Measure-Object -Minimum).Minimum)})", '') -split '`r?`n'
 }
 
-function Get-PieUrl([string]$relative)
+function Get-PieUrl([uri]$url)
 {
-    $url = "https://raw.githubusercontent.com/atifaziz/pie.ps/master"
-    if ($env:PIE_DEV_URL) {
-        $url = $env:PIE_DEV_URL.TrimEnd('/')
+    if (!$url.IsAbsoluteUri)
+    {
+        $baseUrl = "https://raw.githubusercontent.com/atifaziz/pie.ps/master"
+        if ($env:PIE_DEV_URL) {
+            $baseUrl = $env:PIE_DEV_URL.TrimEnd('/')
+        }
+        "$baseUrl/" + $url.OriginalString.TrimStart('/')
     }
-    "$url/" + $relative.TrimStart('/')
+    else
+    {
+        $url
+    }
 }
 
 function Write-Batch([string]$path, [string]$content)
