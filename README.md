@@ -73,5 +73,12 @@ have `pie.ps1` checked into a version control system and the update changes the
 file then it would be wise to commit the updated version.
 
 
+## Supported Python Versions
+
+To list the supported versions of Python versions, run:
+
+    ./pie.ps1 -ListVersions
+
+
 [Python]: https://www.python.org/
 [pip]: https://pip.pypa.io/en/stable/
