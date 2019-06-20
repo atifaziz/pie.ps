@@ -130,6 +130,21 @@ function Install
         }
         else
         {
+            if (!$requiredVersion)
+            {
+                Write-Warning 'There is no "pyver.txt" specifying the Python version to install. The latest version will be installed.'
+                $versionStats =
+                    Get-PythonVersions |
+                        ? { !$_.VersionSuffix } |
+                        Select-Object -ExpandProperty Version |
+                        % { [version]$_ } |
+                        Measure-Object -Maximum
+                if (!$versionStats.Count) {
+                    throw "There is no Python version available to install."
+                }
+                $requiredVersion = $versionStats.Maximum
+                Write-Verbose "The latest Python version that will be installed is $requiredVersion."
+            }
             $archs = @{ AMD64 = 'amd64'; x86 = 'win32' }
             $arch = $archs[$env:PROCESSOR_ARCHITECTURE]
             $pythonDownloadUrl = Get-PythonVersions |
