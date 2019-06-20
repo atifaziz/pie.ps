@@ -15,7 +15,6 @@ try
         try
         {
             ./pi.ps1 -FinishSelfInstall
-            Write-Output 'Pi is installed successfully.'
         }
         catch
         {

@@ -312,6 +312,8 @@ function List-Versions {
     $versions | Select-Object -ExpandProperty Version -Unique
 }
 
-function Finish-SelfInstall {}
+function Finish-SelfInstall {
+    Write-Output 'Pi installed successfully.'
+}
 
 & $PSCmdlet.ParameterSetName
