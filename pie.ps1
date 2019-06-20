@@ -181,7 +181,7 @@ function Install
             @echo off
             setlocal
             set PATH=%~dp0.python;%~dp0.python\Scripts;%PATH%
-            python.exe %*'
+            python.exe -s %*'
 
         Write-Batch pip.cmd '@call "%~dp0python" -m pip %*'
     }
@@ -191,7 +191,7 @@ function Install
         Add-Content $pthFile 'import site'
     }
 
-    [string]$pipVersion = & $python -m pip --version
+    [string]$pipVersion = & $python -s -m pip --version
     if ($LASTEXITCODE)
     {
         Invoke-WebRequest https://bootstrap.pypa.io/get-pip.py `
@@ -217,7 +217,7 @@ function Install
 
     if (Test-Path -PathType Leaf $requirementsFile)
     {
-        & $python -m pip install -r $requirementsFile --no-warn-script-location
+        & $python -s -m pip install -r $requirementsFile --no-warn-script-location
         if ($LASTEXITCODE) {
             throw "Installation of requirements failed (exit code = $LASTEXITCODE)."
         }
