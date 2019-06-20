@@ -54,7 +54,7 @@ function Get-PythonVersions
     if (!$script:cachedVersions)
     {
         $script:cachedVersions =
-            Invoke-RestMethod https://raw.githubusercontent.com/atifaziz/pi.ps1/master/pyver.csv |
+            Invoke-RestMethod https://raw.githubusercontent.com/atifaziz/pie.ps/master/pyver.csv |
                 ConvertFrom-Csv |
                 Select-Object @{ L = 'Version'      ; E = { $_.version        } },
                               @{ L = 'PrefixVersion'; E = { $_.version_prefix } },
@@ -192,7 +192,7 @@ function List-Versions {
 }
 
 function Finish-SelfInstall {
-    Write-Output 'Pi installed successfully.'
+    Write-Output 'Pie installed successfully.'
 }
 
 & $PSCmdlet.ParameterSetName
