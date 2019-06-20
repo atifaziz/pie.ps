@@ -64,6 +64,11 @@ function Get-PieUrl([string]$relative)
     "$url/" + $relative.TrimStart('/')
 }
 
+function Write-Batch([string]$path, [string]$content)
+{
+    Set-Content $path (Remove-CommonLeadingWhiteSpace $content).Trim() -Encoding ascii
+}
+
 $cachedVersions = $null
 
 function Get-PythonVersions
@@ -155,16 +160,13 @@ function Install
 
     if (!$skipProxyScripts)
     {
-        Set-Content python.cmd (Remove-CommonLeadingWhiteSpace '
+        Write-Batch python.cmd '
             @echo off
             setlocal
             set PATH=%~dp0.python;%~dp0.python\Scripts;%PATH%
-            python.exe %*
-            ').TrimStart() `
-            -Encoding ascii -NoNewline
+            python.exe %*'
 
-        Set-Content pip.cmd '@call "%~dp0python" -m pip %*' `
-            -Encoding ascii
+        Write-Batch pip.cmd '@call "%~dp0python" -m pip %*'
     }
 
     $pthFile = Get-ChildItem (Join-Path $basePath *._pth)
