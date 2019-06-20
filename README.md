@@ -79,6 +79,10 @@ To list the supported versions of Python versions, run:
 
     ./pie.ps1 -ListVersions
 
+To include pre-releases like alpha and beta versions, run instead:
+
+    ./pie.ps1 -ListVersions -IncludePrerelease
+
 
 [Python]: https://www.python.org/
 [pip]: https://pip.pypa.io/en/stable/

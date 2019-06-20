@@ -40,6 +40,8 @@ param(
 
     [Parameter(ParameterSetName = 'List-Versions', Mandatory = $true)]
     [switch]$ListVersions,
+    [Parameter(ParameterSetName = 'List-Versions')]
+    [switch]$IncludePrerelease,
 
     [Parameter(ParameterSetName = 'Finish-SelfInstall', Mandatory = $true)]
     [switch]$FinishSelfInstall,
@@ -239,7 +241,11 @@ function Finish-Update
 
 function List-Versions
 {
-    Get-PythonVersions | Select-Object -ExpandProperty Version -Unique
+    $versions = Get-PythonVersions
+    if (!$includePrerelease) {
+        $versions = $versions | ? { !$_.VersionSuffix }
+    }
+    $versions | Select-Object -ExpandProperty Version -Unique
 }
 
 function Finish-SelfInstall
