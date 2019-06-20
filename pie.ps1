@@ -79,8 +79,8 @@ function Get-PythonVersions
             Invoke-RestMethod (Get-PieUrl pyver.csv) |
                 ConvertFrom-Csv |
                 Select-Object @{ L = 'Version'      ; E = { $_.version        } },
-                              @{ L = 'PrefixVersion'; E = { $_.version_prefix } },
-                              @{ L = 'SuffixVersion'; E = { $_.version_suffix } },
+                              @{ L = 'VersionPrefix'; E = { $_.version_prefix } },
+                              @{ L = 'VersionSuffix'; E = { $_.version_suffix } },
                               @{ L = 'Architecture' ; E = { $_.architecture   } },
                               @{ L = 'Url'          ; E = { $_.url            } }
     }
