@@ -62,5 +62,16 @@ packages and supporting scripts) except Pie. To remove Pie from the project,
 simply delete `pie.ps1`.
 
 
+## Updating Your Installation
+
+To ensure you are using the latest version of Pie, run:
+
+    ./pie.ps1 -Update
+
+This will download and replace your current version with the latest. If you
+have `pie.ps1` checked into a version control system and the update changes the
+file then it would be wise to commit the updated version.
+
+
 [Python]: https://www.python.org/
 [pip]: https://pip.pypa.io/en/stable/
