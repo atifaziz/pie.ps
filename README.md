@@ -34,7 +34,7 @@ The script will:
 - Download and install pip.
 
 - If there is a `requirement.txt` found then it will run:
-  `pip install -f requirements.txt`
+  `pip install -r requirements.txt`
 
 - Create convenience batch scripts, namely `python.cmd` and `pip.cmd`, for
   running the project's local Python version and pip commands.
