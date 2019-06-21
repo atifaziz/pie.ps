@@ -56,7 +56,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$thisVersion = '1.1.0'
+$thisVersion = '1.2.0'
 
 function Remove-CommonLeadingWhiteSpace([string]$s) {
     [regex]::Replace($s, "(?m:^ {$(([regex]::Matches($s, '(?m:^ +)') | Select-Object -ExpandProperty Length | Measure-Object -Minimum).Minimum)})", '') -split '`r?`n'
@@ -170,14 +170,33 @@ function Install
             }
             $archs = @{ AMD64 = 'amd64'; x86 = 'win32' }
             $arch = $archs[$env:PROCESSOR_ARCHITECTURE]
-            $pythonDownloadUrl = Get-PythonVersions |
+            [uri]$pythonDownloadUrl = Get-PythonVersions |
                 ? { ($_.Version -eq $requiredVersion) -and ($_.Architecture -eq $arch) } |
                 Select-Object -ExpandProperty Url
             if (!$pythonDownloadUrl) {
                 throw "Download URL for Python $requiredVersion ($arch) is unknown."
             }
         }
-        Invoke-WebRequest $pythonDownloadUrl -OutFile $zipPath
+        [uri]$pythonDownloadUrl = $pythonDownloadUrl
+        $zipName = $pythonDownloadUrl.Segments | Select-Object -Last 1
+        if ($zipName -like '*.zip')
+        {
+            $cachedZipPath = Join-Path ./.pythons $zipName
+            Write-Verbose "Looking for `"$cachedZipPath`" in local cache..."
+            if (Test-Path -PathType Leaf $cachedZipPath)
+            {
+                Write-Verbose "...found and using cached version instead downloading."
+                $zipPath = $cachedZipPath
+                $pythonDownloadUrl = $null
+            }
+            else
+            {
+                Write-Verbose "...not found."
+            }
+        }
+        if ($pythonDownloadUrl) {
+            Invoke-WebRequest $pythonDownloadUrl -OutFile $zipPath
+        }
         if ($uninstall) {
             Uninstall
         }
