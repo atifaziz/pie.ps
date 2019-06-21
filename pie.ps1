@@ -56,7 +56,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$thisVersion = '1.2.0'
+$thisVersion = '1.2.1'
 
 function Remove-CommonLeadingWhiteSpace([string]$s) {
     [regex]::Replace($s, "(?m:^ {$(([regex]::Matches($s, '(?m:^ +)') | Select-Object -ExpandProperty Length | Measure-Object -Minimum).Minimum)})", '') -split '`r?`n'
@@ -309,4 +309,20 @@ function Show-Version
     Write-Output $thisVersion
 }
 
-& $PSCmdlet.ParameterSetName
+$oldPythonHome = $env:PYTHONHOME
+if ($oldPythonHome) {
+    $env:PYTHONHOME = $null
+    Write-Verbose "PYTHONHOME (`"$oldPythonHome`") has been undefined to avoid interference."
+}
+
+try
+{
+    & $PSCmdlet.ParameterSetName
+}
+finally
+{
+    if ($oldPythonHome) {
+        $env:PYTHONHOME = $oldPythonHome
+        Write-Verbose "PYTHONHOME has been restored to `"$env:PYTHONHOME`"."
+    }
+}
