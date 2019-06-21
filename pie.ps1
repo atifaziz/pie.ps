@@ -43,6 +43,9 @@ param(
     [Parameter(ParameterSetName = 'List-Versions')]
     [switch]$IncludePreRelease,
 
+    [Parameter(ParameterSetName = 'Show-Version', Mandatory = $true)]
+    [switch]$Version,
+
     [Parameter(ParameterSetName = 'Finish-SelfInstall', Mandatory = $true)]
     [switch]$FinishSelfInstall,
 
@@ -52,6 +55,8 @@ param(
     [string]$CallerPath)
 
 $ErrorActionPreference = 'Stop'
+
+$thisVersion = '1.1.0'
 
 function Remove-CommonLeadingWhiteSpace([string]$s) {
     [regex]::Replace($s, "(?m:^ {$(([regex]::Matches($s, '(?m:^ +)') | Select-Object -ExpandProperty Length | Measure-Object -Minimum).Minimum)})", '') -split '`r?`n'
@@ -278,6 +283,11 @@ function List-Versions
 function Finish-SelfInstall
 {
     Write-Output 'Pie installed successfully.'
+}
+
+function Show-Version
+{
+    Write-Output $thisVersion
 }
 
 & $PSCmdlet.ParameterSetName
