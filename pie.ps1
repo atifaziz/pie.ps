@@ -78,6 +78,15 @@ function Write-Batch([string]$path, [string]$content)
     Set-Content $path (Remove-CommonLeadingWhiteSpace $content).Trim() -Encoding ascii
 }
 
+function Write-PythonBatch
+{
+    Write-Batch python.cmd '
+        @echo off
+        setlocal
+        set PATH=%~dp0.python;%~dp0.python\Scripts;%PATH%
+        python.exe -s -E %*'
+}
+
 $cachedVersions = $null
 
 function Get-PythonVersions
@@ -171,6 +180,9 @@ function Install
         $installed = $true
     }
 
+    Remove-Item (Join-Path $basePath *.pth),
+                (Join-Path $basePath *._pth)
+
     if ($installed)
     {
         $pythonVersionString = (& $python -V | Out-String).Trim()
@@ -184,21 +196,11 @@ function Install
 
     if (!$skipProxyScripts)
     {
-        Write-Batch python.cmd '
-            @echo off
-            setlocal
-            set PATH=%~dp0.python;%~dp0.python\Scripts;%PATH%
-            python.exe -s %*'
-
+        Write-PythonBatch
         Write-Batch pip.cmd '@call "%~dp0python" -m pip %*'
     }
 
-    $pthFile = Get-ChildItem (Join-Path $basePath *._pth)
-    if (!(Get-Content $pthFile | ? { $_ -match '^ *import +site *$' })) {
-        Add-Content $pthFile 'import site'
-    }
-
-    [string]$pipVersion = & $python -s -m pip --version
+    [string]$pipVersion = & $python -s -E -m pip --version
     if ($LASTEXITCODE)
     {
         Invoke-WebRequest https://bootstrap.pypa.io/get-pip.py `
@@ -224,7 +226,7 @@ function Install
 
     if (Test-Path -PathType Leaf $requirementsFile)
     {
-        & $python -s -m pip install -r $requirementsFile --no-warn-script-location
+        & $python -s -E -m pip install -r $requirementsFile --no-warn-script-location
         if ($LASTEXITCODE) {
             throw "Installation of requirements failed (exit code = $LASTEXITCODE)."
         }
@@ -243,6 +245,24 @@ function Update
 function Finish-Update
 {
     Move-Item (Get-UpdatePath) $callerPath -Force
+
+    Push-Location (Split-Path -Parent $callerPath)
+
+    try
+    {
+        if (Test-Path -PathType Leaf $basePath)
+        {
+            Remove-Item (Join-Path $basePath *.pth),
+            (Join-Path $basePath *._pth)
+        }
+
+        Write-PythonBatch
+    }
+    finally
+    {
+        Pop-Location
+    }
+
     Write-Output 'Pie updated successfully.'
 }
 
