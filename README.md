@@ -41,7 +41,7 @@ The script will:
 The above steps can repeated at any time.
 
 To lock to a specific version of Python, add a file named `pyver.txt` in the
-root of your project containing just the requirement version number, e.g.:
+root of your project containing just the required version number, e.g.:
 
     3.7.1
 
@@ -63,11 +63,11 @@ simply delete `pie.ps1`.
 
 ## Updating Your Installation
 
-To ensure you are using the latest version of Pie, run:
+To ensure that you are using the latest version of Pie, run:
 
     ./pie.ps1 -Update
 
-This will download and replace your current version with the latest. If you
+This will download and replace your current version with the latest one. If you
 have `pie.ps1` checked into a version control system and the update changes the
 file then it would be wise to commit the updated version.
 
