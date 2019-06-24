@@ -16,9 +16,8 @@ To install Pie, copy, paste and run the following line at a PowerShell prompt:
 
     iex (Invoke-RestMethod https://raw.githubusercontent.com/atifaziz/pie.ps/master/get-pie.ps1)
 
-This will add `pie.ps1` to your project. You should check-in this file if you
-are using a version control system (e.g. Git, Mercurial, Subversion or
-another).
+This will add `pie.ps1` to your project. You can check-in this file if you are
+using a version control system (e.g. Git, Mercurial, Subversion or another).
 
 Next, simply run the PowerShell script (add the `-Verbose` switch if you are
 interested in verbose output):
