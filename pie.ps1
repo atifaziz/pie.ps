@@ -56,7 +56,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$thisVersion = '1.2.1'
+$thisVersion = '1.2.2'
 
 function Remove-CommonLeadingWhiteSpace([string]$s) {
     [regex]::Replace($s, "(?m:^ {$(([regex]::Matches($s, '(?m:^ +)') | Select-Object -ExpandProperty Length | Measure-Object -Minimum).Minimum)})", '') -split '`r?`n'
@@ -123,10 +123,10 @@ function Install
 {
     if (Test-Path -PathType Leaf pyver.txt)
     {
-        $requiredVersion, $versoinDownloadUrl = (Get-Content pyver.txt -TotalCount 1) -split '@'
+        $requiredVersion, $versionDownloadUrl = (Get-Content pyver.txt -TotalCount 1) -split '@'
         Write-Verbose "Required Python version is $requiredVersion."
-        if ($versoinDownloadUrl -and ($versoinDownloadUrl -notmatch '^https?://')) {
-            throw "Invalid version download URL (must be a URI using the HTTP or HTTPS scheme): $versoinDownloadUrl"
+        if ($versionDownloadUrl -and ($versionDownloadUrl -notmatch '^https?://')) {
+            throw "Invalid version download URL (must be a URI using the HTTP or HTTPS scheme): $versionDownloadUrl"
         }
     }
 
@@ -147,9 +147,9 @@ function Install
     if (!(Test-Path -PathType Container $basePath) -or $uninstall)
     {
         $zipPath = Join-Path $env:TEMP python.zip
-        if ($versoinDownloadUrl)
+        if ($versionDownloadUrl)
         {
-            $pythonDownloadUrl = $versoinDownloadUrl
+            $pythonDownloadUrl = $versionDownloadUrl
         }
         else
         {
