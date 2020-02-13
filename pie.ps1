@@ -31,6 +31,8 @@ param(
     [Parameter(ParameterSetName = 'Install')]
     [Parameter(ParameterSetName = 'Uninstall')]
     [string]$BasePath = './.python',
+    [Parameter(ParameterSetName = 'Install')]
+    [switch]$ExpandPycZip,
 
     [Parameter(ParameterSetName = 'Uninstall', Mandatory = $true)]
     [switch]$Uninstall,
@@ -56,7 +58,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$thisVersion = '1.2.2'
+$thisVersion = '1.3.0'
 
 function Remove-CommonLeadingWhiteSpace([string]$s) {
     [regex]::Replace($s, "(?m:^ {$(([regex]::Matches($s, '(?m:^ +)') | Select-Object -ExpandProperty Length | Measure-Object -Minimum).Minimum)})", '') -split '`r?`n'
@@ -215,6 +217,20 @@ function Install
 
         if ($installedVersion -and $requiredVersion -and ($installedVersion -ne $requiredVersion)) {
             throw "Downloaded version $installedVersion does not match required version $requiredVersion. Installation impossible."
+        }
+
+        if (!$expandPycZip)
+        {
+            # Following hack is needed by to make "python setup.py egg_info" work
+            # with the embedded distribution. For more, See:
+            # https://stackoverflow.com/a/44432707/6682
+
+            Get-ChildItem -File -Filter python*.zip $basePath |
+                ? { $_.Name -match 'python[0-9]+\.zip' } |
+                % {
+                    Move-Item $_.FullName $env:TEMP -Force
+                    Expand-Archive (Join-Path $env:TEMP $_.Name) -DestinationPath (Join-Path $basePath $_.Name)
+                }
         }
     }
 
