@@ -32,8 +32,12 @@ The script will:
 
 - Download and install pip.
 
-- If there is a `requirement.txt` found then it will run:
-  `pip install -r requirements.txt`
+- New since version 1.4, if there is a `pie-requirement-files.txt` found then
+  it will run `pip install -r FILE` for each requirements file name (replacing
+  `FILE`) listed on a separate line. Each requirement file is processed in the
+  listed order. If `pie-requirement-files.txt` does not exist but
+  `requirement.txt` is found (or using a version older than 1.4), then it
+  will run: `pip install -r requirements.txt`
 
 - Create convenience batch scripts, namely `python.cmd` and `pip.cmd`, for
   running the project's local Python version and pip commands.

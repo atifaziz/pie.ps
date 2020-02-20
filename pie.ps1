@@ -25,7 +25,7 @@ SOFTWARE.
 [CmdletBinding(PositionalBinding = $false, DefaultParameterSetName = 'Install')]
 param(
     [Parameter(ParameterSetName = 'Install')]
-    [string]$RequirementsFile = 'requirements.txt',
+    [string]$RequirementsFile,
     [Parameter(ParameterSetName = 'Install')]
     [switch]$SkipProxyScripts,
     [Parameter(ParameterSetName = 'Install')]
@@ -58,7 +58,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$thisVersion = '1.3.0'
+$thisVersion = '1.4.0'
 
 function Remove-CommonLeadingWhiteSpace([string]$s) {
     [regex]::Replace($s, "(?m:^ {$(([regex]::Matches($s, '(?m:^ +)') | Select-Object -ExpandProperty Length | Measure-Object -Minimum).Minimum)})", '') -split '`r?`n'
@@ -264,12 +264,34 @@ function Install
         Write-Verbose $pipVersion
     }
 
-    if (Test-Path -PathType Leaf $requirementsFile)
+    $requirementsFiles = [string[]]@()
+
+    if ($requirementsFile)
     {
-        & $python -s -E -m pip install -r $requirementsFile --no-warn-script-location
-        if ($LASTEXITCODE) {
-            throw "Installation of requirements failed (exit code = $LASTEXITCODE)."
-        }
+        $requirementsFiles = [string[]]$requirementsFile
+    }
+    elseif (Test-Path -PathType Leaf pie-requirements-files.txt)
+    {
+        $requirementsFiles =
+            Get-Content pie-requirements-files.txt |
+                % { $_.Trim() } |
+                ? { $_.Length -gt 0 -and $_ -notmatch '^#' }
+    }
+    elseif (Test-Path -PathType Leaf requirements.txt)
+    {
+        $requirementsFiles = [string[]]'requirements.txt'
+    }
+
+    if ($requirementsFiles)
+    {
+        $requirementsFiles |
+            % {
+                Write-Verbose "Installing requirements from ""$_""..."
+                & $python -s -E -m pip install -r $_ --no-warn-script-location
+                if ($LASTEXITCODE) {
+                    throw "Installation of requirements (from ""$_"") failed (exit code = $LASTEXITCODE)."
+                }
+            }
     }
 }
 
