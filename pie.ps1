@@ -270,10 +270,10 @@ function Install
     {
         $requirementsFiles = [string[]]$requirementsFile
     }
-    elseif (Test-Path -PathType Leaf pie-requirements-files.txt)
+    elseif (Test-Path -PathType Leaf requirements-files.txt)
     {
         $requirementsFiles =
-            Get-Content pie-requirements-files.txt |
+            Get-Content requirements-files.txt |
                 % { $_.Trim() } |
                 ? { $_.Length -gt 0 -and $_ -notmatch '^#' }
     }
