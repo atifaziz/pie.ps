@@ -78,6 +78,6 @@ var infos =
         e.Url,
     };
 
-WriteLine("Version,VersionPrefix,VersionSuffix,Architecture,Url");
+WriteLine("version,version_prefix,version_suffix,architecture,url");
 foreach (var e in infos)
     WriteLine(string.Join(",", e.Version, e.VersionPrefix, e.VersionSuffix, e.Architecture, e.Url));
