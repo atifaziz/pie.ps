@@ -32,7 +32,7 @@ SOFTWARE.
 //     dotnet script pyver.csx > pyver.csv
 
 #r "nuget:System.Reactive, 4.0.0"
-#r "nuget:WebLinq, 1.0.0-ci-20180920T1656"
+#r "nuget:WebLinq, 1.0.0-alpha-20200416"
 
 using System.Reactive;
 using System.Reactive.Linq;
