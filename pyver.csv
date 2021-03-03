@@ -1,12 +1,4 @@
 version,version_prefix,version_suffix,architecture,url
-,,,amd64,https://www.python.org/ftp/python/3.10.0/python-3.10.0a4-embed-amd64.zip
-,,,amd64,https://www.python.org/ftp/python/3.10.0/python-3.10.0a3-embed-amd64.zip
-,,,amd64,https://www.python.org/ftp/python/3.10.0/python-3.10.0a2-embed-amd64.zip
-,,,amd64,https://www.python.org/ftp/python/3.10.0/python-3.10.0a1-embed-amd64.zip
-,,,win32,https://www.python.org/ftp/python/3.10.0/python-3.10.0a4-embed-win32.zip
-,,,win32,https://www.python.org/ftp/python/3.10.0/python-3.10.0a3-embed-win32.zip
-,,,win32,https://www.python.org/ftp/python/3.10.0/python-3.10.0a2-embed-win32.zip
-,,,win32,https://www.python.org/ftp/python/3.10.0/python-3.10.0a1-embed-win32.zip
 3.5.0b2,3.5.0,b2,amd64,https://www.python.org/ftp/python/3.5.0/python-3.5.0b2-embed-amd64.zip
 3.5.0b2,3.5.0,b2,win32,https://www.python.org/ftp/python/3.5.0/python-3.5.0b2-embed-win32.zip
 3.5.0b3,3.5.0,b3,amd64,https://www.python.org/ftp/python/3.5.0/python-3.5.0b3-embed-amd64.zip
