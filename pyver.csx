@@ -57,6 +57,7 @@ var infos =
                 let nts = Regex.Replace(e.Url.Segments.Last(), @"\.zip$", string.Empty, RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)
                                .Split('-')
                 let vm = Regex.Match(nts[1], @"^([0-9](?:\.[0-9]){2,3})([a-z0-9]+)?")
+                where vm.Success
                 select new
                 {
                     Version = vm.Value,
