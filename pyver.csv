@@ -163,6 +163,8 @@ version,version_prefix,version_suffix,architecture,url
 3.8.0rc1,3.8.0,rc1,win32,https://www.python.org/ftp/python/3.8.0/python-3.8.0rc1-embed-win32.zip
 3.8.0,3.8.0,,amd64,https://www.python.org/ftp/python/3.8.0/python-3.8.0-embed-amd64.zip
 3.8.0,3.8.0,,win32,https://www.python.org/ftp/python/3.8.0/python-3.8.0-embed-win32.zip
+3.8.10,3.8.1,0,amd64,https://www.python.org/ftp/python/3.8.10/python-3.8.10-embed-amd64.zip
+3.8.10,3.8.1,0,win32,https://www.python.org/ftp/python/3.8.10/python-3.8.10-embed-win32.zip
 3.8.1rc1,3.8.1,rc1,amd64,https://www.python.org/ftp/python/3.8.1/python-3.8.1rc1-embed-amd64.zip
 3.8.1rc1,3.8.1,rc1,win32,https://www.python.org/ftp/python/3.8.1/python-3.8.1rc1-embed-win32.zip
 3.8.1,3.8.1,,amd64,https://www.python.org/ftp/python/3.8.1/python-3.8.1-embed-amd64.zip
@@ -195,6 +197,8 @@ version,version_prefix,version_suffix,architecture,url
 3.8.8rc1,3.8.8,rc1,win32,https://www.python.org/ftp/python/3.8.8/python-3.8.8rc1-embed-win32.zip
 3.8.8,3.8.8,,amd64,https://www.python.org/ftp/python/3.8.8/python-3.8.8-embed-amd64.zip
 3.8.8,3.8.8,,win32,https://www.python.org/ftp/python/3.8.8/python-3.8.8-embed-win32.zip
+3.8.9,3.8.9,,amd64,https://www.python.org/ftp/python/3.8.9/python-3.8.9-embed-amd64.zip
+3.8.9,3.8.9,,win32,https://www.python.org/ftp/python/3.8.9/python-3.8.9-embed-win32.zip
 3.9.0a1,3.9.0,a1,amd64,https://www.python.org/ftp/python/3.9.0/python-3.9.0a1-embed-amd64.zip
 3.9.0a1,3.9.0,a1,win32,https://www.python.org/ftp/python/3.9.0/python-3.9.0a1-embed-win32.zip
 3.9.0a2,3.9.0,a2,amd64,https://www.python.org/ftp/python/3.9.0/python-3.9.0a2-embed-amd64.zip
@@ -231,3 +235,7 @@ version,version_prefix,version_suffix,architecture,url
 3.9.2rc1,3.9.2,rc1,win32,https://www.python.org/ftp/python/3.9.2/python-3.9.2rc1-embed-win32.zip
 3.9.2,3.9.2,,amd64,https://www.python.org/ftp/python/3.9.2/python-3.9.2-embed-amd64.zip
 3.9.2,3.9.2,,win32,https://www.python.org/ftp/python/3.9.2/python-3.9.2-embed-win32.zip
+3.9.4,3.9.4,,amd64,https://www.python.org/ftp/python/3.9.4/python-3.9.4-embed-amd64.zip
+3.9.4,3.9.4,,win32,https://www.python.org/ftp/python/3.9.4/python-3.9.4-embed-win32.zip
+3.9.5,3.9.5,,amd64,https://www.python.org/ftp/python/3.9.5/python-3.9.5-embed-amd64.zip
+3.9.5,3.9.5,,win32,https://www.python.org/ftp/python/3.9.5/python-3.9.5-embed-win32.zip
